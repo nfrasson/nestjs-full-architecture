@@ -5,7 +5,8 @@
     "outDir": "./dist/src",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@mocks/*": ["__mocks__/*"],
     },
     "sourceMap": true,
     "declaration": true,
@@ -20,6 +21,6 @@
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": false
-  }
+    "forceConsistentCasingInFileNames": false,
+  },
 }

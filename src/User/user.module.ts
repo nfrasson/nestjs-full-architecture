@@ -6,9 +6,9 @@ import { IJwtHandler } from '@/interfaces/jwt.interface';
 import { JwtNestModule } from '../services/jwt/jwt.module';
 import { PrismaService } from '@/db/prisma/prisma.service';
 import { IUserRepository } from '@/interfaces/user.interface';
-import { BcryptModule } from '../services/crypto/bcrypt.module';
+import { BcryptModule } from '../services/bcrypt/bcrypt.module';
 import { ICryptoHandler } from '@/interfaces/crypto.interface';
-import { BcryptHandler } from '@/services/crypto/bcrypt.service';
+import { BcryptHandler } from '@/services/bcrypt/bcrypt.service';
 import { UserPrismaRepository } from '@/db/prisma/repositories/user.prisma.repository';
 
 @Module({

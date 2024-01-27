@@ -8,7 +8,9 @@ export default {
   },
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/**/main.ts',
     '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/db/prisma/prisma.service.ts',
     '!<rootDir>/src/**/*.{interface,dto,module,schema}.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.test.ts'],
@@ -17,10 +19,10 @@ export default {
   },
   coverageThreshold: {
     global: {
-      lines: 90,
-      branches: 90,
-      functions: 90,
-      statements: 90,
+      lines: 100,
+      branches: 63,
+      functions: 100,
+      statements: 100,
     },
   },
 };

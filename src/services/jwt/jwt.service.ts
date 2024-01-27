@@ -1,8 +1,9 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
+import { IJwtHandler } from '@/interfaces/jwt.interface';
 
 @Injectable()
-export class JwtHandler {
+export class JwtHandler implements IJwtHandler {
   constructor(private readonly jwtService: JwtService) {}
 
   generateToken(payload: object): string {

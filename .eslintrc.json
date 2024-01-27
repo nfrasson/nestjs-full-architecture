@@ -1,5 +1,6 @@
 {
   "env": {
+    "jest": true,
     "es2022": true,
     "commonjs": true
   },
@@ -9,33 +10,34 @@
     "sourceType": "module",
     "project": "tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "jest"],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
     "no-multi-spaces": "error",
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 5 }],
     "max-len": [
       "error",
       {
         "code": 120,
         "tabWidth": 2,
+        "ignoreUrls": true,
         "ignoreComments": true,
-        "ignoreTrailingComments": true,
-        "ignoreUrls": true
+        "ignoreTrailingComments": true
       }
     ],
     "indent": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-non-null-assertion": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
-    "@typescript-eslint/explicit-module-boundary-types": "warn"
+    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }]
   }
 }

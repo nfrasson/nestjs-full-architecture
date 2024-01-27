@@ -1,8 +1,9 @@
 import { hash, compare } from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
+import { ICryptoHandler } from '@/interfaces/crypto.interface';
 
 @Injectable()
-export class BcryptHandler {
+export class BcryptHandler implements ICryptoHandler {
   constructor() {}
 
   hashPassword(password: string): Promise<string> {

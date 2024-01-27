@@ -11,11 +11,7 @@ export class UserService {
     private jwtHandler: IJwtHandler,
     private cryptoHandler: ICryptoHandler,
     private userRepository: IUserRepository
-  ) {
-    this.jwtHandler = jwtHandler;
-    this.cryptoHandler = cryptoHandler;
-    this.userRepository = userRepository;
-  }
+  ) {}
 
   async loginUser(LoginUserInputDto: LoginUserInputDto): Promise<LoginUserResponseDto> {
     try {
