@@ -1,18 +1,18 @@
-import { UserService } from "./user.service";
-import { Controller, Post, Body } from "@nestjs/common";
-import { LoginUserInputDto, RegisterUserInputDto } from "../dto/index";
+import { UserService } from './user.service';
+import { Controller, Post, Body } from '@nestjs/common';
+import { LoginUserInputDto, RegisterUserInputDto, LoginUserResponseDto, RegisterUserResponseDto } from '../dto/index';
 
-@Controller("user")
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post("login")
-  async loginUser(@Body() body: LoginUserInputDto) {
+  @Post('login')
+  async loginUser(@Body() body: LoginUserInputDto): Promise<LoginUserResponseDto> {
     return await this.userService.loginUser(body);
   }
 
-  @Post("register")
-  async registerUser(@Body() body: RegisterUserInputDto) {
+  @Post('register')
+  async registerUser(@Body() body: RegisterUserInputDto): Promise<RegisterUserResponseDto> {
     return await this.userService.registerUser(body);
   }
 }

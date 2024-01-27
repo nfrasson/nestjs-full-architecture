@@ -1,6 +1,6 @@
-import { User } from "@prisma/client";
-import { IUserRepository } from "@/interfaces/user.interface";
-import { PrismaService } from "../prisma.service";
+import { User } from '@prisma/client';
+import { IUserRepository } from '@/interfaces/user.interface';
+import { PrismaService } from '../prisma.service';
 
 export class UserPrismaRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}

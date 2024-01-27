@@ -1,5 +1,5 @@
-import { hash, compare } from "bcryptjs";
-import { Injectable } from "@nestjs/common";
+import { hash, compare } from 'bcryptjs';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BcryptHandler {

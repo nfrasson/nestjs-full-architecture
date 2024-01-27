@@ -1,5 +1,5 @@
-import { Module } from "@nestjs/common";
-import { BcryptHandler } from "./bcrypt.service";
+import { Module } from '@nestjs/common';
+import { BcryptHandler } from './bcrypt.service';
 
 @Module({
   providers: [BcryptHandler],

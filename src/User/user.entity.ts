@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
 export class User {
   userId: string;
@@ -7,7 +7,7 @@ export class User {
   userEmail: string;
   userPassword: string;
 
-  constructor(props: Omit<User, "userId"> & { userId?: string }) {
+  constructor(props: Omit<User, 'userId'> & { userId?: string }) {
     Object.assign(this, props);
     this.userId = props.userId || randomUUID();
   }

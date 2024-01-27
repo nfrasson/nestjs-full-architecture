@@ -1,14 +1,9 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import {
-  LoginUserInputDto,
-  RegisterUserInputDto,
-  LoginUserResponseDto,
-  RegisterUserResponseDto,
-} from "../dto/index";
-import { IJwtHandler } from "@/interfaces/jwt.interface";
-import { ICryptoHandler } from "@/interfaces/crypto.interface";
-import { IUserRepository } from "@/interfaces/user.interface";
-import { User } from "./user.entity";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { LoginUserInputDto, RegisterUserInputDto, LoginUserResponseDto, RegisterUserResponseDto } from '../dto/index';
+import { IJwtHandler } from '@/interfaces/jwt.interface';
+import { ICryptoHandler } from '@/interfaces/crypto.interface';
+import { IUserRepository } from '@/interfaces/user.interface';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -22,16 +17,12 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
-  async loginUser(
-    LoginUserInputDto: LoginUserInputDto
-  ): Promise<LoginUserResponseDto> {
+  async loginUser(LoginUserInputDto: LoginUserInputDto): Promise<LoginUserResponseDto> {
     try {
-      const user = await this.userRepository.findByEmail(
-        LoginUserInputDto.userEmail
-      );
+      const user = await this.userRepository.findByEmail(LoginUserInputDto.userEmail);
 
       if (!user) {
-        throw new UnauthorizedException("Invalid credentials");
+        throw new UnauthorizedException('Invalid credentials');
       }
 
       const isPasswordValid = await this.cryptoHandler.comparePassword(
@@ -40,7 +31,7 @@ export class UserService {
       );
 
       if (!isPasswordValid) {
-        throw new UnauthorizedException("Invalid credentials");
+        throw new UnauthorizedException('Invalid credentials');
       }
 
       const token = this.jwtHandler.generateToken(user);
@@ -51,22 +42,16 @@ export class UserService {
     }
   }
 
-  async registerUser(
-    RegisterUserInputDto: RegisterUserInputDto
-  ): Promise<RegisterUserResponseDto> {
-    const userAlreadyRegistered = await this.userRepository.findByEmail(
-      RegisterUserInputDto.userEmail
-    );
+  async registerUser(RegisterUserInputDto: RegisterUserInputDto): Promise<RegisterUserResponseDto> {
+    const userAlreadyRegistered = await this.userRepository.findByEmail(RegisterUserInputDto.userEmail);
 
     if (userAlreadyRegistered) {
-      throw new UnauthorizedException("Email already exists");
+      throw new UnauthorizedException('Email already exists');
     }
 
     const user = new User(RegisterUserInputDto);
 
-    const hashedPassword = await this.cryptoHandler.hashPassword(
-      RegisterUserInputDto.userPassword
-    );
+    const hashedPassword = await this.cryptoHandler.hashPassword(RegisterUserInputDto.userPassword);
     user.userPassword = hashedPassword;
 
     await this.userRepository.register(user);

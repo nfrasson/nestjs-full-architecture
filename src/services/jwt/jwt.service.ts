@@ -1,5 +1,5 @@
-import { JwtService } from "@nestjs/jwt";
-import { Injectable } from "@nestjs/common";
+import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class JwtHandler {
@@ -9,7 +9,7 @@ export class JwtHandler {
     return this.jwtService.sign(JSON.stringify(payload));
   }
 
-  verifyToken(token: string): any {
+  verifyToken(token: string): object {
     return this.jwtService.verify(token);
   }
 }
