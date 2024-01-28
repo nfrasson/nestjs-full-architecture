@@ -14,6 +14,6 @@ async function bootstrap(): Promise<void> {
   app.register(helmet);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(process.env.HTTP_PORT || 3000, '0.0.0.0');
 }
 bootstrap();

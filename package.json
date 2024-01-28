@@ -5,8 +5,8 @@
     "build": "nest build -b swc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "start": "npm run build && node dist/src/main",
-    "test:unit": "jest --no-cache --detectOpenHandles --coverage"
+    "start:dev": "npm run build && node dist/src/main",
+    "test:unit": "jest __tests__/unit --no-cache --detectOpenHandles --coverage"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
@@ -27,6 +27,7 @@
     "husky": "^9.0.6",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.0",
+    "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
@@ -49,7 +50,7 @@
   "lint-staged": {
     "*.{ts}": [
       "eslint",
-      "jest --bail --findRelatedTests --no-cache --detectOpenHandles"
+      "jest --passWithNoTests --bail --findRelatedTests --no-cache --detectOpenHandles"
     ]
   }
 }
