@@ -1,6 +1,6 @@
+import { User } from '@/User/user.entity';
 import { IUserRepository } from '@/interfaces/user.interface';
 import { mockUser } from '@mocks/User/user.entity.mock';
-import { User } from '@prisma/client';
 
 export class UserRepositoryMock implements IUserRepository {
   async register(): Promise<void> {

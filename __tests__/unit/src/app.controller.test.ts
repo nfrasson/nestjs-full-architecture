@@ -1,15 +1,15 @@
-import { DefaultController } from '@/default.controller';
+import { AppController } from '@/app.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 
-describe('DefaultController', () => {
-  let controller: DefaultController;
+describe('AppController', () => {
+  let controller: AppController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [DefaultController],
+      controllers: [AppController],
     }).compile();
 
-    controller = module.get<DefaultController>(DefaultController);
+    controller = module.get<AppController>(AppController);
   });
 
   it('should return a 204 status for healthCheck', () => {

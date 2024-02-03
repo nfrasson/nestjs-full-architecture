@@ -1,12 +1,14 @@
 {
   "name": "nest-js-full-architecture",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "build": "nest build -b swc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "start:dev": "npm run build && node dist/src/main",
-    "test:unit": "jest __tests__/unit --no-cache --detectOpenHandles --coverage"
+    "test:unit": "jest --no-cache --detectOpenHandles --coverage",
+    "test:e2e": "jest --config jest-e2e.config.json --no-cache --detectOpenHandles --runInBand",
+    "test:e2e:docker": "docker-compose -f docker-compose.e2e.yml up --build --abort-on-container-exit --exit-code-from app-e2e"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
@@ -29,8 +31,6 @@
     "lint-staged": "^15.2.0",
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
@@ -50,7 +50,7 @@
   "lint-staged": {
     "*.{ts}": [
       "eslint",
-      "jest --passWithNoTests --bail --findRelatedTests --no-cache --detectOpenHandles"
+      "jest --config jest.config.json --passWithNoTests --bail --findRelatedTests --no-cache --detectOpenHandles"
     ]
   }
 }

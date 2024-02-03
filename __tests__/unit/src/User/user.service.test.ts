@@ -5,7 +5,7 @@ import { IUserRepository } from '@/interfaces/user.interface';
 import { UserRepositoryMock } from '@mocks/db/repositories/user.mocked.repository';
 import { CryptoHandlerMock } from '@mocks/services/bcrypt.service.mock';
 import { JwtHandlerMock } from '@mocks/services/jwt.service.mock';
-import { UnauthorizedException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import Chance from 'chance';
 
 const chance = new Chance();
@@ -51,7 +51,7 @@ describe('UserService', () => {
   });
 
   describe('registerUser', () => {
-    it('should throw an UnauthorizedException if the user is already registered', async () => {
+    it('should throw an ConflictException if the user is already registered', async () => {
       await expect(
         userService.registerUser({
           userEmail: chance.email(),
@@ -59,7 +59,7 @@ describe('UserService', () => {
           userFirstname: chance.string(),
           userLastname: chance.string(),
         })
-      ).rejects.toThrow(UnauthorizedException);
+      ).rejects.toThrow(ConflictException);
     });
 
     it('should register the user if the user is not already registered', async () => {

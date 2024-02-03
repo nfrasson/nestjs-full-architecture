@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "clearMocks": true,
+  "moduleNameMapper": {
+    "@/(.*)": "<rootDir>/src/$1"
+  },
+  "transform": {
+    "^.+\\.(t|j)sx?$": "@swc/jest"
+  },
+  "testMatch": ["<rootDir>/__tests__/e2e/**/*.e2e-test.ts"]
+}

@@ -1,6 +1,6 @@
 import { PrismaService } from '@/db/prisma/prisma.service';
-import { UserPrismaRepository } from '@/db/prisma/repositories/user.prisma.repository';
 import { mockUser } from '@mocks/User/user.entity.mock';
+import { UserPrismaRepository } from '@/db/prisma/repositories/user.prisma.repository';
 
 describe('UserPrismaRepository', () => {
   let repository: UserPrismaRepository;
