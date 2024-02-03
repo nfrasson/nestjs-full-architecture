@@ -1,0 +1,5 @@
+{
+  "watch": ["__tests__/e2e", "src"],
+  "ext": "ts,json",
+  "exec": "npm run test:e2e"
+}
