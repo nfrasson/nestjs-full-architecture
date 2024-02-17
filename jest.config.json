@@ -1,8 +1,10 @@
 {
   "verbose": true,
   "clearMocks": true,
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
   "transform": {
-    "^.+\\.(t|j)sx?$": "@swc/jest"
+    "^.+\\.(t|j)s?$": ["ts-jest"]
   },
   "collectCoverageFrom": [
     "<rootDir>/src/**/*.ts",
@@ -13,7 +15,8 @@
   ],
   "testMatch": ["<rootDir>/__tests__/unit/**/*.test.ts"],
   "moduleNameMapper": {
-    "@/(.*)": "<rootDir>/src/$1"
+    "@/(.*)": "<rootDir>/src/$1",
+    "@mocks/(.*)": "<rootDir>/__mocks__/$1"
   },
   "coverageThreshold": {
     "global": {

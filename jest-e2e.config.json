@@ -1,11 +1,13 @@
 {
   "verbose": true,
   "clearMocks": true,
+  "collectCoverage": true,
+  "coverageDirectory": "coverage-e2e",
   "moduleNameMapper": {
     "@/(.*)": "<rootDir>/src/$1"
   },
   "transform": {
-    "^.+\\.(t|j)sx?$": "@swc/jest"
+    "^.+\\.(t|j)sx?$": ["ts-jest"]
   },
   "testMatch": ["<rootDir>/__tests__/e2e/**/*.e2e-test.ts"]
 }
