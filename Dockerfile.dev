@@ -1,7 +1,11 @@
 FROM node:20 AS development
 WORKDIR /app
+COPY .env ./
+COPY src/ ./src/
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY config/ ./config/
+COPY prisma/ ./prisma/
 RUN npm ci --ignore-scripts
-COPY . .
 EXPOSE 3000
-CMD ["npx", "nodemon"]
+CMD ["npm", "run", "start:dev"]

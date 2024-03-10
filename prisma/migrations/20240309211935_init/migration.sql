@@ -10,4 +10,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_userId_key" ON "User"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_userEmail_key" ON "User"("userEmail");

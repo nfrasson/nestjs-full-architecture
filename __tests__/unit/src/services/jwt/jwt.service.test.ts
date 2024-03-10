@@ -27,18 +27,4 @@ describe('JwtHandler', () => {
       expect(token).toBe(mockedToken);
     });
   });
-
-  describe('verifyToken', () => {
-    it('should verify a token and return the payload', () => {
-      const token = chance.string();
-      const expectedPayload = { userId: chance.guid(), userEmail: chance.email() };
-
-      jest.spyOn(jwtService, 'verify').mockImplementation(() => expectedPayload);
-
-      const payload = jwtHandler.verifyToken(token);
-
-      expect(jwtService.verify).toHaveBeenCalledWith(token);
-      expect(payload).toEqual(expectedPayload);
-    });
-  });
 });

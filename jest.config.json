@@ -1,7 +1,6 @@
 {
   "verbose": true,
   "clearMocks": true,
-  "collectCoverage": true,
   "coverageDirectory": "coverage",
   "transform": {
     "^.+\\.(t|j)s?$": ["ts-jest"]
@@ -10,7 +9,7 @@
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/main.ts",
     "!<rootDir>/src/**/index.ts",
-    "!<rootDir>/src/db/prisma/prisma.service.ts",
+    "!<rootDir>/src/database/database.service.ts",
     "!<rootDir>/src/**/*.{interface,dto,module,schema}.ts"
   ],
   "testMatch": ["<rootDir>/__tests__/unit/**/*.test.ts"],
@@ -21,7 +20,7 @@
   "coverageThreshold": {
     "global": {
       "lines": 100,
-      "branches": 63,
+      "branches": 100,
       "functions": 100,
       "statements": 100
     }

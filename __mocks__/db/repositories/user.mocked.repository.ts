@@ -7,14 +7,6 @@ export class UserRepositoryMock implements IUserRepository {
     return;
   }
 
-  async findByID(): Promise<User> {
-    return mockUser();
-  }
-
-  async update(): Promise<void> {
-    return;
-  }
-
   async findByEmail(): Promise<User> {
     return mockUser();
   }

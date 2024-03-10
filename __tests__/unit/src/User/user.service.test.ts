@@ -1,19 +1,19 @@
+import Chance from 'chance';
 import { UserService } from '@/User/user.service';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
 import { IJwtHandler } from '@/interfaces/jwt.interface';
 import { IUserRepository } from '@/interfaces/user.interface';
-import { UserRepositoryMock } from '@mocks/db/repositories/user.mocked.repository';
-import { CryptoHandlerMock } from '@mocks/services/bcrypt.service.mock';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 import { JwtHandlerMock } from '@mocks/services/jwt.service.mock';
+import { CryptoHandlerMock } from '@mocks/services/bcrypt.service.mock';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
-import Chance from 'chance';
+import { UserRepositoryMock } from '@mocks/db/repositories/user.mocked.repository';
 
 const chance = new Chance();
 
 describe('UserService', () => {
   let userService: UserService;
   let jwtHandler: IJwtHandler;
-  let cryptoHandler: ICryptoHandler;
+  let cryptoHandler: ICryptoService;
   let userRepository: IUserRepository;
 
   beforeEach(() => {

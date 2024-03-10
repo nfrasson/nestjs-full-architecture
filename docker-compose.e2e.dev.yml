@@ -7,20 +7,16 @@ services:
       dockerfile: Dockerfile.e2e.dev
     volumes:
       - .:/app
-    environment:
-      NODE_ENV: local
-      HTTP_PORT: 3000
-      POSTGRES_HOST: postgres
-      POSTGRES_USER: local_user
-      POSTGRES_PASSWORD: local_password
-      JWT_SECRET: mysecretsecret
+    env_file:
+      - .env
+      - prisma/.env
     depends_on:
       - postgres
 
   postgres:
     image: postgres:latest
     ports:
-      - '5432:5432'
+      - '5431:5432'
     environment:
       - POSTGRES_DB=nestjs_full_architecture
       - POSTGRES_USER=local_user

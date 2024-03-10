@@ -1,6 +1,10 @@
 FROM node:20 AS e2e-testing
 WORKDIR /app
+COPY src/ ./src/
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY jest-e2e.config.json ./
+COPY __mocks__/ ./__mocks__/
+COPY __tests__/e2e/ ./__tests__/e2e/
 RUN npm ci --ignore-scripts
-COPY . .
 CMD ["npm", "run", "test:e2e"]

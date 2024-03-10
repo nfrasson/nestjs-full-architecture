@@ -1,8 +1,12 @@
 {
   "verbose": true,
   "clearMocks": true,
-  "collectCoverage": true,
   "coverageDirectory": "coverage-e2e",
+  "collectCoverageFrom": [
+    "<rootDir>/src/**/*.ts",
+    "!<rootDir>/src/**/{main,index}.ts",
+    "!<rootDir>/src/**/*.{interface,schema}.ts"
+  ],
   "moduleNameMapper": {
     "@/(.*)": "<rootDir>/src/$1"
   },

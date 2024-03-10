@@ -1,13 +1,13 @@
 import { hash, compare } from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 
 @Injectable()
-export class BcryptHandler implements ICryptoHandler {
+export class BcryptHandler implements ICryptoService {
   constructor() {}
 
   hashPassword(password: string): Promise<string> {
-    return hash(password, 8);
+    return hash(password, 5);
   }
 
   comparePassword(password: string, hash: string): Promise<boolean> {

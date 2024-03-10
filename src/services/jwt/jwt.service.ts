@@ -9,8 +9,4 @@ export class JwtHandler implements IJwtHandler {
   generateToken(payload: object): string {
     return this.jwtService.sign(JSON.stringify(payload));
   }
-
-  verifyToken(token: string): object {
-    return this.jwtService.verify(token);
-  }
 }

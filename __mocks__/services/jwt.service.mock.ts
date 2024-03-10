@@ -7,8 +7,4 @@ export class JwtHandlerMock implements IJwtHandler {
   generateToken(_payload: object): string {
     return chance.string();
   }
-
-  verifyToken(_token: string): object {
-    return { [chance.string()]: chance.string() };
-  }
 }

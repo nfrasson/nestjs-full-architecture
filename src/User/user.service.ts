@@ -1,15 +1,15 @@
+import { User } from './user.entity';
+import { IJwtHandler } from '@/interfaces/jwt.interface';
+import { IUserRepository } from '@/interfaces/user.interface';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 import { UnauthorizedException, ConflictException, Injectable } from '@nestjs/common';
 import { LoginUserInputDto, RegisterUserInputDto, LoginUserResponseDto, RegisterUserResponseDto } from '../dto/index';
-import { IJwtHandler } from '@/interfaces/jwt.interface';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
-import { IUserRepository } from '@/interfaces/user.interface';
-import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     private jwtHandler: IJwtHandler,
-    private cryptoHandler: ICryptoHandler,
+    private cryptoHandler: ICryptoService,
     private userRepository: IUserRepository
   ) {}
 

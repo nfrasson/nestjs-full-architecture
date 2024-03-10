@@ -1,9 +1,9 @@
 import Chance from 'chance';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 
 const chance = new Chance();
 
-export class CryptoHandlerMock implements ICryptoHandler {
+export class CryptoHandlerMock implements ICryptoService {
   hashPassword(_password: string): Promise<string> {
     return Promise.resolve(chance.string());
   }

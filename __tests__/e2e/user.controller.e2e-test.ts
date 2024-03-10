@@ -1,22 +1,22 @@
 import Chance from 'chance';
-import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { UserModule } from '@/User/user.module';
-import { ValidationPipe } from '@nestjs/common';
-import { PrismaService } from '@/db/prisma/prisma.service';
-import { UserPrismaRepository } from '@/db/prisma/repositories/user.prisma.repository';
-import { IUserRepository } from '@/interfaces/user.interface';
 import { User } from '@/User/user.entity';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
+import { ValidationPipe } from '@nestjs/common';
+import { UserModule } from '@/User/user.module';
+import { Test, TestingModule } from '@nestjs/testing';
+import { IUserRepository } from '@/interfaces/user.interface';
+import { DatabaseService } from '@/database/database.service';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 import { BcryptHandler } from '@/services/bcrypt/bcrypt.service';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { UserPrismaRepository } from '@/database/repositories/user.prisma.repository';
 
 const chance = new Chance();
 
 describe('UserController (e2e)', () => {
   let app: NestFastifyApplication;
-  let prismaService: PrismaService;
+  let databaseService: DatabaseService;
   let userRepository: IUserRepository;
-  let bcryptService: ICryptoHandler;
+  let bcryptService: ICryptoService;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,9 +27,9 @@ describe('UserController (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
-    prismaService = moduleFixture.get<PrismaService>(PrismaService);
+    databaseService = moduleFixture.get<DatabaseService>(DatabaseService);
     userRepository = moduleFixture.get<IUserRepository>(UserPrismaRepository);
-    bcryptService = moduleFixture.get<ICryptoHandler>(BcryptHandler);
+    bcryptService = moduleFixture.get<ICryptoService>(BcryptHandler);
   });
 
   describe('/user/login (POST)', () => {
@@ -204,6 +204,6 @@ describe('UserController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-    await prismaService.cleanDatabase();
+    await databaseService.cleanDatabase();
   });
 });

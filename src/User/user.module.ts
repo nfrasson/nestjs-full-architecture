@@ -4,27 +4,20 @@ import { UserController } from './user.controller';
 import { JwtHandler } from '@/services/jwt/jwt.service';
 import { IJwtHandler } from '@/interfaces/jwt.interface';
 import { JwtNestModule } from '../services/jwt/jwt.module';
-import { PrismaService } from '@/db/prisma/prisma.service';
+import { DatabaseModule } from '@/database/database.module';
 import { IUserRepository } from '@/interfaces/user.interface';
 import { BcryptModule } from '../services/bcrypt/bcrypt.module';
-import { ICryptoHandler } from '@/interfaces/crypto.interface';
+import { ICryptoService } from '@/interfaces/crypto.interface';
 import { BcryptHandler } from '@/services/bcrypt/bcrypt.service';
-import { UserPrismaRepository } from '@/db/prisma/repositories/user.prisma.repository';
+import { UserPrismaRepository } from '@/database/repositories/user.prisma.repository';
 
 @Module({
-  imports: [BcryptModule, JwtNestModule],
+  imports: [BcryptModule, JwtNestModule, DatabaseModule],
   providers: [
-    PrismaService,
-    {
-      provide: UserPrismaRepository,
-      useFactory: (prismaService: PrismaService) => {
-        return new UserPrismaRepository(prismaService);
-      },
-      inject: [PrismaService],
-    },
+    UserPrismaRepository,
     {
       provide: UserService,
-      useFactory: (jwtHandler: IJwtHandler, cryptoService: ICryptoHandler, userRepository: IUserRepository) => {
+      useFactory: (jwtHandler: IJwtHandler, cryptoService: ICryptoService, userRepository: IUserRepository) => {
         return new UserService(jwtHandler, cryptoService, userRepository);
       },
       inject: [JwtHandler, BcryptHandler, UserPrismaRepository],
