@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.e2e
     env_file:
       - .env
-      - prisma/.env
+      - src/infrastructure/database/prisma/.env
     depends_on:
       - postgres
 

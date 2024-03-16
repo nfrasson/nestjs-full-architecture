@@ -1,18 +1,12 @@
-import { AppModule } from '@/app.module';
-import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { AppModule } from '@infrastructure/api/app.module';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { createMockApp } from '@mocks/infrastructure/api/main.mock';
 
 describe('AppController (e2e)', () => {
   let app: NestFastifyApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
-    await app.init();
-    await app.getHttpAdapter().getInstance().ready();
+    ({ app } = await createMockApp({ imports: [AppModule] }));
   });
 
   describe('/healthcheck (GET)', () => {

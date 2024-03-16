@@ -1,5 +1,5 @@
 {
   "ext": "ts,json",
   "watch": ["__tests__/e2e", "__mocks__", "src"],
-  "exec": "npm run migrate:dev && npm run test:e2e"
+  "exec": "npm run test:e2e"
 }
