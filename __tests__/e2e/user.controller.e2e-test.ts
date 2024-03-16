@@ -1,35 +1,30 @@
 import Chance from 'chance';
-import { User } from '@/User/user.entity';
-import { ValidationPipe } from '@nestjs/common';
-import { UserModule } from '@/User/user.module';
-import { Test, TestingModule } from '@nestjs/testing';
-import { IUserRepository } from '@/interfaces/user.interface';
-import { DatabaseService } from '@/database/database.service';
-import { ICryptoService } from '@/interfaces/crypto.interface';
-import { BcryptHandler } from '@/services/bcrypt/bcrypt.service';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { UserPrismaRepository } from '@/database/repositories/user.prisma.repository';
+import { TestingModule } from '@nestjs/testing';
+import { User } from '@domain/entities/user.entity';
+import { UserModule } from '@infrastructure/api/user/user.module';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { createMockApp } from '@mocks/infrastructure/api/main.mock';
+import { DatabaseService } from '@infrastructure/database/database.service';
+import { ICryptoService } from '@domain/interfaces/services/crypto.interface';
+import { IUserRepository } from '@domain/interfaces/repositories/user.interface';
+import { BcryptHandler } from '@infrastructure/api/services/bcrypt/bcrypt.service';
+import { UserPrismaRepository } from '@infrastructure/database/repositories/user.prisma.repository';
 
 const chance = new Chance();
 
 describe('UserController (e2e)', () => {
   let app: NestFastifyApplication;
-  let databaseService: DatabaseService;
-  let userRepository: IUserRepository;
+  let moduleFixture: TestingModule;
   let bcryptService: ICryptoService;
+  let userRepository: IUserRepository;
+  let databaseService: DatabaseService;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule],
-    }).compile();
+    ({ moduleFixture, app } = await createMockApp({ imports: [UserModule] }));
 
-    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
-    app.useGlobalPipes(new ValidationPipe({ transform: true }));
-    await app.init();
-    await app.getHttpAdapter().getInstance().ready();
+    bcryptService = moduleFixture.get<ICryptoService>(BcryptHandler);
     databaseService = moduleFixture.get<DatabaseService>(DatabaseService);
     userRepository = moduleFixture.get<IUserRepository>(UserPrismaRepository);
-    bcryptService = moduleFixture.get<ICryptoService>(BcryptHandler);
   });
 
   describe('/user/login (POST)', () => {

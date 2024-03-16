@@ -3,7 +3,6 @@ WORKDIR /app
 COPY src/ ./src/
 COPY package*.json ./
 COPY tsconfig.json ./
-COPY prisma/ ./prisma/
 RUN npm ci --omit=dev --ignore-scripts
 RUN npx prisma generate
 RUN npm run build

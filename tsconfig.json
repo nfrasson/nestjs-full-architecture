@@ -20,8 +20,10 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
     "paths": {
-      "@/*": ["src/*"],
       "@mocks/*": ["__mocks__/*"],
-    },
+      "@domain/*": ["src/domain/*"],
+      "@application/*": ["src/application/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
+    }
   }
 }
