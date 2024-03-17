@@ -8,9 +8,10 @@ datasource db {
 }
 
 model User {
-  userId        String @id @unique
-  userEmail     String @unique
-  userFirstname String
-  userLastname  String
-  userPassword  String
+  user_id            String   @id @unique
+  user_email         String   @unique
+  user_firstname     String
+  user_lastname      String
+  user_password      String
+  user_registered_at DateTime @default(now())
 }

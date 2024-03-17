@@ -1,12 +1,14 @@
 import Chance from 'chance';
 import { User } from '@domain/entities/user.entity';
-import { RegisterUserResponseDto } from '@application/dto/user';
 import { RegisterUserUseCase } from '@application/usecases/user';
 import { jwtServiceMock } from '@mocks/domain/interfaces/services/jwt.interface.mock';
-import { ConflictException } from '@application/utils/exceptions/conflict.exception';
+import { ConflictException } from '@domain/exceptions/conflict.exception';
 import { cryptoServiceMock } from '@mocks/domain/interfaces/services/crypto.interface.mock';
 import { userRepositoryMock } from '@mocks/domain/interfaces/repositories/user.interface.mock';
-import { mockRegisterUserInputDto } from '@mocks/application/dto/user/register-user-input.dto.mock';
+import {
+  mockRegisterUserInputDto,
+  mockRegisterUserResponseDto,
+} from '@mocks/application/usecases/user/register.use-case.mock';
 
 const chance = new Chance();
 
@@ -26,7 +28,7 @@ describe('RegisterUserUseCase', () => {
   });
 
   it('should return a token if the user is successfully registered', async () => {
-    const user: User = {
+    const user = {
       userId: chance.guid(),
       userEmail: chance.email(),
       userPassword: chance.string(),
@@ -34,16 +36,16 @@ describe('RegisterUserUseCase', () => {
       userLastname: chance.last(),
     };
 
-    const token = chance.hash();
+    const expectedResponse = mockRegisterUserResponseDto();
 
-    jwtServiceMock.generateToken.mockReturnValue(token);
+    jwtServiceMock.generateToken.mockReturnValue(expectedResponse.token);
     userRepositoryMock.findByEmail.mockResolvedValue(null);
     cryptoServiceMock.hashPassword.mockResolvedValue(user.userPassword);
 
     const input = mockRegisterUserInputDto();
 
-    const result: RegisterUserResponseDto = await useCase.execute(input);
+    const result = await useCase.execute(input);
 
-    expect(result).toEqual({ token });
+    expect(result).toEqual(expectedResponse);
   });
 });

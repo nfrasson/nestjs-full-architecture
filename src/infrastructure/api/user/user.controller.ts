@@ -1,11 +1,7 @@
-import {
-  LoginUserInputDto,
-  RegisterUserInputDto,
-  LoginUserResponseDto,
-  RegisterUserResponseDto,
-} from '@application/dto/user';
 import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { LoginUserUseCase, RegisterUserUseCase } from '@application/usecases/user';
+import { LoginUserInputDto, LoginUserResponseDto } from '@application/usecases/user/login-user.use-case';
+import { RegisterUserInputDto, RegisterUserResponseDto } from '@application/usecases/user/register-user.use-case';
 
 @Controller('user')
 export class UserController {

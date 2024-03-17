@@ -1,20 +1,19 @@
 import { Module } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 import { UserController } from './user.controller';
-import { JwtNestModule } from '../services/jwt/jwt.module';
-import { BcryptModule } from '../services/bcrypt/bcrypt.module';
-import { IJwtService } from '@domain/interfaces/services/jwt.interface';
-import { JwtService } from '@infrastructure/api/services/jwt/jwt.service';
+import { JwtService } from '@application/services/jwt.service';
+import { BcryptService } from '@application/services/bcrypt.service';
+import { DatabaseService } from '@infrastructure/database/database.service';
+import { ITokenService } from '@domain/interfaces/services/token.interface';
 import { ICryptoService } from '@domain/interfaces/services/crypto.interface';
 import { IUserRepository } from '@domain/interfaces/repositories/user.interface';
 import { LoginUserUseCase, RegisterUserUseCase } from '@application/usecases/user';
-import { BcryptHandler } from '@infrastructure/api/services/bcrypt/bcrypt.service';
 import { UserPrismaRepository } from '@infrastructure/database/repositories/user.prisma.repository';
-import { PrismaClient } from '@prisma/client';
-import { DatabaseService } from '@infrastructure/database/database.service';
 
 @Module({
-  imports: [BcryptModule, JwtNestModule],
   providers: [
+    JwtService,
+    BcryptService,
     UserPrismaRepository,
     {
       provide: UserPrismaRepository,
@@ -23,15 +22,15 @@ import { DatabaseService } from '@infrastructure/database/database.service';
     },
     {
       provide: LoginUserUseCase,
-      useFactory: (userRepository: IUserRepository, cryptoService: ICryptoService, jwtService: IJwtService) =>
+      useFactory: (userRepository: IUserRepository, cryptoService: ICryptoService, jwtService: ITokenService) =>
         new LoginUserUseCase(userRepository, cryptoService, jwtService),
-      inject: [UserPrismaRepository, BcryptHandler, JwtService],
+      inject: [UserPrismaRepository, BcryptService, JwtService],
     },
     {
       provide: RegisterUserUseCase,
-      useFactory: (userRepository: IUserRepository, cryptoService: ICryptoService, jwtService: IJwtService) =>
+      useFactory: (userRepository: IUserRepository, cryptoService: ICryptoService, jwtService: ITokenService) =>
         new RegisterUserUseCase(userRepository, cryptoService, jwtService),
-      inject: [UserPrismaRepository, BcryptHandler, JwtService],
+      inject: [UserPrismaRepository, BcryptService, JwtService],
     },
   ],
   controllers: [UserController],

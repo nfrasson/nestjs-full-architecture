@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { mockUser } from '@mocks/domain/entities/user.entity.mock';
 import { UserController } from '@infrastructure/api/user/user.controller';
 import { LoginUserUseCase, RegisterUserUseCase } from '@application/usecases/user';
-import { mockLoginUserResponseDto } from '@mocks/application/dto/user/login-user-response.dto.mock';
-import { mockRegisterUserResponseDto } from '@mocks/application/dto/user/register-user-response.dto.mock';
+import { mockLoginUserResponseDto } from '@mocks/application/usecases/user/login.use-case.mock';
+import { mockRegisterUserResponseDto } from '@mocks/application/usecases/user/register.use-case.mock';
 
 describe('UserController', () => {
   let controller: UserController;

@@ -1,4 +1,4 @@
-FROM node:20 AS e2e-testing
+FROM node:20
 WORKDIR /app
 COPY src/ ./src/
 COPY package*.json ./

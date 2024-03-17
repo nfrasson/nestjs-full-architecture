@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.e2e
     env_file:
-      - .env
+      - .env.local
       - src/infrastructure/database/prisma/.env
     depends_on:
       - postgres
