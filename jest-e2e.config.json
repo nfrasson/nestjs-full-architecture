@@ -14,7 +14,7 @@
     "@infrastructure/(.*)": "<rootDir>/src/infrastructure/$1"
   },
   "transform": {
-    "^.+\\.(t|j)sx?$": ["ts-jest"]
+    "^.+\\.(t|j)sx?$": ["@swc/jest"]
   },
   "testMatch": ["<rootDir>/__tests__/e2e/**/*.e2e-test.ts"]
 }

@@ -1,20 +1,29 @@
+import 'reflect-metadata';
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
-import { AppModule } from './app.module';
-import { NestFactory } from '@nestjs/core';
-import { AllExceptionsFilter } from './utils/exception.filter';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { registerUserRoutes } from './fastify/controllers/user.fastify.controller';
 
-async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ logger: { level: 'warn' } })
-  );
+const fastify = Fastify({ logger: { level: 'warn' } });
 
-  app.enableCors();
-  app.register(helmet);
-  app.useGlobalFilters(new AllExceptionsFilter());
+fastify.register(cors);
+fastify.register(helmet);
 
-  await app.listen(process.env.HTTP_PORT || 3000, '0.0.0.0');
-}
+registerUserRoutes(fastify);
 
-bootstrap();
+fastify.setErrorHandler((error, _request, reply) => {
+  console.error(error);
+  reply.status(500).send({ error: 'Internal Server Error' });
+});
+
+const start = (): void => {
+  try {
+    fastify.listen({ port: Number(process.env.PORT) || 3000, host: '0.0.0.0' });
+    console.log(`Server listening on port ${process.env.PORT || 3000}`);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();

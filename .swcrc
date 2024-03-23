@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "baseUrl": "./",
+    "target": "es2022",
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": true
+    },
+    "paths": {
+      "@mocks/*": ["__mocks__/*"],
+      "@domain/*": ["src/domain/*"],
+      "@application/*": ["src/application/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
+    }
+  },
+  "sourceMaps": true,
+  "module": {
+    "type": "commonjs"
+  }
+}

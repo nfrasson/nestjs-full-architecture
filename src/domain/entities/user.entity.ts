@@ -118,7 +118,7 @@ export class User {
       errors.push('User password must be at least 8 characters long');
     }
 
-    if (password?.length > 8) {
+    if (password?.length > 50) {
       errors.push('User password must be at most 50 characters long');
     }
 

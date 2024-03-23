@@ -37,11 +37,11 @@ services:
     environment:
       - POSTGRES_USER=local_user
       - POSTGRES_PASSWORD=local_password
-      - POSTGRES_DB=nestjs_full_architecture
+      - POSTGRES_DB=typescript_clean_architecture
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', "sh -c 'pg_isready -U local_user -d nestjs_full_architecture'"]
+      test: ['CMD-SHELL', "sh -c 'pg_isready -U local_user -d typescript_clean_architecture'"]
       interval: 5s
       timeout: 5s
       retries: 20

@@ -1,7 +1,6 @@
 import { mockUser } from '@mocks/domain/entities/user.entity.mock';
 import { DatabaseService } from '@infrastructure/database/database.service';
 import { UserPrismaRepository } from '@infrastructure/database/repositories/user.prisma.repository';
-import { User } from '@domain/entities/user.entity';
 
 const mockUserCreate = jest.fn();
 const mockUserFindUnique = jest.fn();
@@ -19,8 +18,8 @@ jest.mock('@prisma/client', () => {
 });
 
 describe('UserPrismaRepository', () => {
-  let repository: UserPrismaRepository;
   let database: DatabaseService;
+  let repository: UserPrismaRepository;
 
   beforeAll(() => {
     database = new DatabaseService();
@@ -55,7 +54,7 @@ describe('UserPrismaRepository', () => {
         user_password: mockedUser.userPassword,
       });
 
-      expect(await repository.findByEmail(mockedUser.userEmail)).toStrictEqual(new User(mockedUser));
+      expect(await repository.findByEmail(mockedUser.userEmail)).toStrictEqual(mockedUser);
       expect(mockUserFindUnique).toHaveBeenCalledWith({
         where: {
           user_email: mockedUser.userEmail,

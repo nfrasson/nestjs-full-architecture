@@ -11,7 +11,7 @@ export const mockLoginUserUseCase = jest.fn().mockImplementation(() => {
 
 export const mockLoginUserInputDto = (): LoginUserInputDto => ({
   userEmail: chance.email(),
-  userPassword: chance.string(),
+  userPassword: chance.string({ length: 8 }),
 });
 
 export const mockLoginUserResponseDto = (): LoginUserResponseDto => ({

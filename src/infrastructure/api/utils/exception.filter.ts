@@ -1,73 +1,72 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Logger, Catch, ArgumentsHost, HttpException, ExceptionFilter } from '@nestjs/common';
-import { BaseError, ConflictException, InvalidInputException, UnauthorizedException } from '@domain/exceptions';
+import { BaseError } from '@domain/exceptions';
 
-@Catch()
-export class AllExceptionsFilter implements ExceptionFilter {
-  private readonly logger = new Logger(AllExceptionsFilter.name);
+export class AllExceptionsFilter {
+  // private readonly logger = new Logger(AllExceptionsFilter.name);
 
-  catch(exception: BaseError | HttpException | Error, host: ArgumentsHost): void {
-    const ctx = host.switchToHttp();
-    const request = ctx.getRequest();
-    const response = ctx.getResponse();
-
-    const { statusCode, errorResponse } = this.handleError(exception);
-
-    if (statusCode >= 500) {
-      this.logger.error(`HTTP ${request.method} ${request.url}`, exception.stack, 'AllExceptionsFilter');
-    }
-
-    response.status(statusCode).send(errorResponse);
+  catch(exception: BaseError | Error): void {
+    console.error(exception);
   }
+  //   const request = ctx.getRequest();
+  //   const response = ctx.getResponse();
 
-  private handleError(exception: BaseError | HttpException | Error): {
-    statusCode: number;
-    errorResponse: object;
-  } {
-    if (exception instanceof HttpException) {
-      return this.handleHttpException(exception);
-    } else if (exception instanceof BaseError) {
-      return this.handleBaseError(exception);
-    } else {
-      return this.handleGenericError(exception);
-    }
-  }
+  //   const { statusCode, errorResponse } = this.handleError(exception);
 
-  private statusCodeMap: Map<Function, number> = new Map([
-    [ConflictException, 409],
-    [UnauthorizedException, 401],
-    [InvalidInputException, 400],
-  ]);
+  //   if (statusCode >= 500) {
+  //     this.logger.error(`HTTP ${request.method} ${request.url}`, exception.stack, 'AllExceptionsFilter');
+  //   }
 
-  private handleBaseError(exception: BaseError): { statusCode: number; errorResponse: object } {
-    const statusCode = this.statusCodeMap.get(exception.constructor) || 500;
+  //   response.status(statusCode).send(errorResponse);
+  // }
 
-    const errorResponse = {
-      status: false,
-      data: exception.response,
-      error: exception.message,
-    };
+  // private handleError(exception: BaseError | HttpException | Error): {
+  //   statusCode: number;
+  //   errorResponse: object;
+  // } {
+  //   if (exception instanceof HttpException) {
+  //     return this.handleHttpException(exception);
+  //   } else if (exception instanceof BaseError) {
+  //     return this.handleBaseError(exception);
+  //   } else {
+  //     return this.handleGenericError(exception);
+  //   }
+  // }
 
-    return { statusCode, errorResponse };
-  }
+  // private statusCodeMap: Map<Function, number> = new Map([
+  //   [ConflictException, 409],
+  //   [UnauthorizedException, 401],
+  //   [InvalidInputException, 400],
+  // ]);
 
-  private handleHttpException(exception: HttpException): { statusCode: number; errorResponse: object } {
-    const statusCode = exception.getStatus();
-    const response = exception.getResponse();
-    const errorResponse = {
-      status: false,
-      error: typeof response === 'object' ? response : { message: response },
-    };
-    return { statusCode, errorResponse };
-  }
+  // private handleBaseError(exception: BaseError): { statusCode: number; errorResponse: object } {
+  //   const statusCode = this.statusCodeMap.get(exception.constructor) || 500;
 
-  private handleGenericError(exception: Error): { statusCode: number; errorResponse: object } {
-    return {
-      statusCode: 500,
-      errorResponse: {
-        status: false,
-        error: exception.message || 'Internal server error',
-      },
-    };
-  }
+  //   const errorResponse = {
+  //     status: false,
+  //     data: exception.response,
+  //     error: exception.message,
+  //   };
+
+  //   return { statusCode, errorResponse };
+  // }
+
+  // private handleHttpException(exception: HttpException): { statusCode: number; errorResponse: object } {
+  //   const statusCode = exception.getStatus();
+  //   const response = exception.getResponse();
+  //   const errorResponse = {
+  //     status: false,
+  //     error: typeof response === 'object' ? response : { message: response },
+  //   };
+  //   return { statusCode, errorResponse };
+  // }
+
+  // private handleGenericError(exception: Error): { statusCode: number; errorResponse: object } {
+  //   return {
+  //     statusCode: 500,
+  //     errorResponse: {
+  //       status: false,
+  //       error: exception.message || 'Internal server error',
+  //     },
+  //   };
+  // }
 }

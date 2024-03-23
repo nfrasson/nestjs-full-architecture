@@ -14,8 +14,6 @@
     "strictNullChecks": false,
     "noUnusedParameters": true,
     "strictBindCallApply": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,

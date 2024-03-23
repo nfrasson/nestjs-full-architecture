@@ -16,7 +16,7 @@ services:
     ports:
       - '5431:5432'
     environment:
-      - POSTGRES_DB=nestjs_full_architecture
+      - POSTGRES_DB=typescript_clean_architecture
       - POSTGRES_USER=local_user
       - POSTGRES_PASSWORD=local_password
     volumes:

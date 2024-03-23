@@ -3,14 +3,15 @@
   "clearMocks": true,
   "coverageDirectory": "coverage",
   "transform": {
-    "^.+\\.(t|j)s?$": ["ts-jest"]
+    "^.+\\.(t|j)sx?$": ["@swc/jest"]
   },
   "collectCoverageFrom": [
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/main.ts",
     "!<rootDir>/src/**/index.ts",
-    "!<rootDir>/src/**/*.{interface,dto,module,schema}.ts",
-    "!<rootDir>/src/infrastructure/database/database.service.ts"
+    "!<rootDir>/src/infrastructure/config/container.di.ts",
+    "!<rootDir>/src/infrastructure/database/database.service.ts",
+    "!<rootDir>/src/**/*.{interface,dto,module,fastify,schema}.ts"
   ],
   "testMatch": ["<rootDir>/__tests__/unit/**/*.test.ts"],
   "moduleNameMapper": {
