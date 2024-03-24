@@ -4,8 +4,7 @@
     "baseUrl": "./",
     "target": "es2022",
     "parser": {
-      "syntax": "typescript",
-      "dynamicImport": true
+      "syntax": "typescript"
     },
     "paths": {
       "@mocks/*": ["__mocks__/*"],
@@ -14,7 +13,6 @@
       "@infrastructure/*": ["src/infrastructure/*"]
     }
   },
-  "sourceMaps": true,
   "module": {
     "type": "commonjs"
   }

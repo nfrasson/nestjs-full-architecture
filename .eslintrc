@@ -2,20 +2,20 @@
   "env": {
     "jest": true,
     "es2022": true,
-    "commonjs": true
+    "commonjs": true,
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 13,
     "sourceType": "module",
-    "project": "tsconfig.json"
+    "project": "tsconfig.json",
   },
   "plugins": ["@typescript-eslint", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:jest/recommended",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
   ],
   "rules": {
     "no-multi-spaces": "error",
@@ -29,15 +29,16 @@
         "tabWidth": 2,
         "ignoreUrls": true,
         "ignoreComments": true,
-        "ignoreTrailingComments": true
-      }
+        "ignoreTrailingComments": true,
+      },
     ],
     "indent": "off",
     "@typescript-eslint/indent": "off",
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "error",
     "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }]
-  }
+    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
+  },
 }

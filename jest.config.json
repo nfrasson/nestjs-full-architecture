@@ -9,7 +9,7 @@
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/main.ts",
     "!<rootDir>/src/**/index.ts",
-    "!<rootDir>/src/infrastructure/config/container.di.ts",
+    "!<rootDir>/src/infrastructure/config/di/container.di.ts",
     "!<rootDir>/src/infrastructure/database/database.service.ts",
     "!<rootDir>/src/**/*.{interface,dto,module,fastify,schema}.ts"
   ],

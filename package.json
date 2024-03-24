@@ -23,6 +23,7 @@
     "fastify": "^4.26.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
+    "pino": "^8.19.0",
     "reflect-metadata": "^0.2.1",
     "tsyringe": "^4.8.0"
   },

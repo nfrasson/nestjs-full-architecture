@@ -1,6 +1,6 @@
 import Chance from 'chance';
 import { User } from '@domain/entities/user.entity';
-import { UnauthorizedException } from '@domain/exceptions';
+import { InvalidInputException, UnauthorizedException } from '@domain/exceptions';
 import { LoginUserUseCase } from '@application/usecases/user';
 import { jwtServiceMock } from '@mocks/domain/interfaces/services/jwt.interface.mock';
 import { cryptoServiceMock } from '@mocks/domain/interfaces/services/crypto.interface.mock';
@@ -17,44 +17,63 @@ describe('LoginUserUseCase', () => {
     useCase = new LoginUserUseCase(userRepositoryMock, cryptoServiceMock, jwtServiceMock);
   });
 
-  it('should throw an UnauthorizedException if the user is not found', async () => {
-    userRepositoryMock.findByEmail.mockResolvedValue(null);
+  describe('validateInput', () => {
+    it('should throw an InvalidInputException if the input is invalid', () => {
+      const input = {
+        userEmail: chance.string(),
+        userPassword: chance.string({ length: 8 }),
+      };
 
-    const input = mockLoginUserInputDto();
+      expect(() => useCase.validateInput(input)).toThrow(InvalidInputException);
+    });
 
-    await expect(useCase.execute(input)).rejects.toThrow(UnauthorizedException);
+    it('should not throw an exception if the input is valid', () => {
+      const input = mockLoginUserInputDto();
+
+      expect(() => useCase.validateInput(input)).not.toThrow();
+    });
   });
 
-  it('should throw an UnauthorizedException if the password is invalid', async () => {
-    const user = {
-      userId: chance.guid(),
-      userEmail: chance.email(),
-      userPassword: chance.string({ length: 8 }),
-      userFirstname: chance.first(),
-      userLastname: chance.last(),
-    };
+  describe('execute', () => {
+    it('should throw an UnauthorizedException if the user is not found', async () => {
+      userRepositoryMock.findByEmail.mockResolvedValue(null);
 
-    userRepositoryMock.findByEmail.mockResolvedValue(new User(user));
-    cryptoServiceMock.comparePassword.mockResolvedValue(false);
+      const input = mockLoginUserInputDto();
 
-    const input = mockLoginUserInputDto();
+      await expect(useCase.execute(input)).rejects.toThrow(UnauthorizedException);
+    });
 
-    await expect(useCase.execute(input)).rejects.toThrow(UnauthorizedException);
-  });
+    it('should throw an UnauthorizedException if the password is invalid', async () => {
+      const user = {
+        userId: chance.guid(),
+        userEmail: chance.email(),
+        userPassword: chance.string({ length: 8 }),
+        userFirstname: chance.first(),
+        userLastname: chance.last(),
+      };
 
-  it('should return a token if the user is found and the password is valid', async () => {
-    const user = mockUser();
+      userRepositoryMock.findByEmail.mockResolvedValue(new User(user));
+      cryptoServiceMock.comparePassword.mockResolvedValue(false);
 
-    const expectedResponse = mockLoginUserResponseDto();
+      const input = mockLoginUserInputDto();
 
-    jwtServiceMock.generateToken.mockReturnValue(expectedResponse.token);
-    userRepositoryMock.findByEmail.mockResolvedValue(user);
-    cryptoServiceMock.comparePassword.mockResolvedValue(true);
+      await expect(useCase.execute(input)).rejects.toThrow(UnauthorizedException);
+    });
 
-    const input = mockLoginUserInputDto();
+    it('should return a token if the user is found and the password is valid', async () => {
+      const user = mockUser();
 
-    const result = await useCase.execute(input);
+      const expectedResponse = mockLoginUserResponseDto();
 
-    expect(result).toEqual(expectedResponse);
+      jwtServiceMock.generateToken.mockReturnValue(expectedResponse.token);
+      userRepositoryMock.findByEmail.mockResolvedValue(user);
+      cryptoServiceMock.comparePassword.mockResolvedValue(true);
+
+      const input = mockLoginUserInputDto();
+
+      const result = await useCase.execute(input);
+
+      expect(result).toEqual(expectedResponse);
+    });
   });
 });
