@@ -1,24 +1,26 @@
-import { ContainerDI } from '@infrastructure/config/di/container.di';
+import { IContainerDI } from '@domain/interfaces/config/container.di.interface';
 import { registerUserDependencies } from '@infrastructure/config/di/user/user.di';
 import { LoginUserUseCase, RegisterUserUseCase } from '@application/usecases/user';
 import { IUserController } from '@domain/interfaces/controllers/user.controller.interface';
 import { LoginUserInputDto, LoginUserResponseDto } from '@application/usecases/user/login-user.use-case';
 import { RegisterUserInputDto, RegisterUserResponseDto } from '@application/usecases/user/register-user.use-case';
 
-const container = new ContainerDI();
-
-registerUserDependencies(container);
-
 export class UserController implements IUserController {
-  loginUser(requestBody: LoginUserInputDto): Promise<LoginUserResponseDto> {
-    const loginUseCase = container.resolve<LoginUserUseCase>('LoginUserUseCase');
+  private readonly loginUseCase: LoginUserUseCase;
+  private readonly registerUseCase: RegisterUserUseCase;
 
-    return loginUseCase.execute(requestBody);
+  constructor(private readonly container: IContainerDI) {
+    registerUserDependencies(container);
+
+    this.loginUseCase = this.container.resolve<LoginUserUseCase>('LoginUserUseCase');
+    this.registerUseCase = this.container.resolve<RegisterUserUseCase>('RegisterUserUseCase');
+  }
+
+  loginUser(requestBody: LoginUserInputDto): Promise<LoginUserResponseDto> {
+    return this.loginUseCase.execute(requestBody);
   }
 
   registerUser(requestBody: RegisterUserInputDto): Promise<RegisterUserResponseDto> {
-    const registerUseCase = container.resolve<RegisterUserUseCase>('RegisterUserUseCase');
-
-    return registerUseCase.execute(requestBody);
+    return this.registerUseCase.execute(requestBody);
   }
 }

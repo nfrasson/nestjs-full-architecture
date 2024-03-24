@@ -9,9 +9,8 @@
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/main.ts",
     "!<rootDir>/src/**/index.ts",
-    "!<rootDir>/src/infrastructure/config/di/container.di.ts",
     "!<rootDir>/src/infrastructure/database/database.service.ts",
-    "!<rootDir>/src/**/*.{interface,dto,module,fastify,schema}.ts"
+    "!<rootDir>/src/**/*.{di,interface,dto,module,fastify,schema}.ts"
   ],
   "testMatch": ["<rootDir>/__tests__/unit/**/*.test.ts"],
   "moduleNameMapper": {

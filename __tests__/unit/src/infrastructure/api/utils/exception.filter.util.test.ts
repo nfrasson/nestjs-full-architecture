@@ -1,5 +1,5 @@
 import { Chance } from 'chance';
-import { ExceptionFilter } from '@infrastructure/api/utils/exception.filter';
+import { ExceptionFilter } from '@infrastructure/api/utils/exception.filter.util';
 import { Logger } from '@infrastructure/api/utils/logger.util';
 import { BaseError, ConflictException, InvalidInputException, UnauthorizedException } from '@domain/exceptions';
 

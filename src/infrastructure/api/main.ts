@@ -3,18 +3,21 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { Logger } from './utils/logger.util';
-import { ExceptionFilter } from './utils/exception.filter';
-import { registerUserRoutes } from './fastify/controllers/user.fastify.controller';
+import { ExceptionFilter } from './utils/exception.filter.util';
+import { ContainerDI } from '@infrastructure/config/di/container.di';
+import { UserFastifyController } from './controllers/fastify/user.fastify.controller';
+import { UserController } from './controllers/user.controller';
 
 const fastify = Fastify();
 
 fastify.register(cors);
 fastify.register(helmet);
 
-registerUserRoutes(fastify);
-
-const logger = new Logger('fastify');
+const logger = new Logger('main');
+const container = new ContainerDI();
 const excepctionFilter = new ExceptionFilter();
+
+new UserFastifyController(new UserController(container)).registerRoutes(fastify);
 
 fastify.setErrorHandler((error, request, reply) => {
   const { statusCode, errorResponse } = excepctionFilter.catch(error, { method: request.method, url: request.url });
