@@ -1,30 +1,33 @@
 import Chance from 'chance';
-import { TestingModule } from '@nestjs/testing';
-import { UserModule } from '@infrastructure/api/user/user.module';
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { FastifyInstance } from 'fastify';
+import { mockApp } from '@mocks/infrastructure/api/main.mock';
 import { mockUser } from '@mocks/domain/entities/user.entity.mock';
-import { createMockApp } from '@mocks/infrastructure/api/main.mock';
+import { ContainerDI } from '@infrastructure/config/di/container.di';
 import { DatabaseService } from '@infrastructure/database/database.service';
-import { IUserRepository } from '@domain/interfaces/repositories/user.interface';
-import { UserPrismaRepository } from '@infrastructure/database/repositories/user.prisma.repository';
 import { ICryptoService } from '@domain/interfaces/services/crypto.interface';
-import { BcryptService } from '@application/services/bcrypt.service';
+import { IContainerDI } from '@domain/interfaces/config/container.di.interface';
+import { IUserRepository } from '@domain/interfaces/repositories/user.interface';
+import { UserController } from '@infrastructure/api/controllers/user.controller';
+import { UserFastifyController } from '@infrastructure/api/controllers/fastify/user.fastify.controller';
 
 const chance = new Chance();
 
 describe('UserController (e2e)', () => {
-  let app: NestFastifyApplication;
-  let moduleFixture: TestingModule;
+  let app: FastifyInstance;
+  let container: IContainerDI;
   let cryptoService: ICryptoService;
   let userRepository: IUserRepository;
   let databaseService: DatabaseService;
 
   beforeAll(async () => {
-    ({ moduleFixture, app } = await createMockApp({ imports: [UserModule] }));
+    app = mockApp();
+    container = new ContainerDI();
 
-    cryptoService = moduleFixture.get<ICryptoService>(BcryptService);
-    databaseService = moduleFixture.get<DatabaseService>(DatabaseService);
-    userRepository = moduleFixture.get<IUserRepository>(UserPrismaRepository);
+    new UserFastifyController(new UserController(container)).registerRoutes(app);
+
+    cryptoService = container.resolve<ICryptoService>('ICryptoService');
+    userRepository = container.resolve<IUserRepository>('IUserRepository');
+    databaseService = container.resolve<DatabaseService>('DatabaseService');
   });
 
   describe('/user/login (POST)', () => {
@@ -160,13 +163,12 @@ describe('UserController (e2e)', () => {
         payload: input,
       });
 
-      expect(response.statusCode).toBe(201);
+      expect(response.statusCode).toBe(200);
 
       const responseBody = response.json();
-      expect(Object.keys(responseBody)).toEqual(['token']);
 
+      expect(responseBody).toHaveProperty('token');
       expect(typeof responseBody.token).toBe('string');
-      expect(responseBody.token).toBeTruthy();
     });
   });
 

@@ -1,26 +1,21 @@
-import { ModuleMetadata } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { DatabaseModule } from '@infrastructure/database/database.module';
-import { AllExceptionsFilter } from '@infrastructure/api/utils/exception.filter';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import 'reflect-metadata';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import Fastify, { FastifyInstance } from 'fastify';
+import { ExceptionFilter } from '@infrastructure/api/utils/exception.filter.util';
 
-export const createMockApp = async (
-  moduleConfig: ModuleMetadata
-): Promise<{
-  moduleFixture: TestingModule;
-  app: NestFastifyApplication;
-}> => {
-  const moduleFixture: TestingModule = await Test.createTestingModule({
-    providers: moduleConfig.providers,
-    imports: [...moduleConfig.imports, DatabaseModule],
-  }).compile();
+export function mockApp(): FastifyInstance {
+  const fastify = Fastify();
 
-  const app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
+  fastify.register(cors);
+  fastify.register(helmet);
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  const excepctionFilter = new ExceptionFilter();
 
-  await app.init();
-  await app.getHttpAdapter().getInstance().ready();
+  fastify.setErrorHandler((error, request, reply) => {
+    const { statusCode, errorResponse } = excepctionFilter.catch(error, { method: request.method, url: request.url });
+    reply.status(statusCode).send(errorResponse);
+  });
 
-  return { moduleFixture, app };
-};
+  return fastify;
+}
